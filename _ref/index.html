@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predialtech – Engenharia Predial e Industrial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo">
+        <svg class="logo__icon" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <rect x="1" y="1" width="15" height="15" fill="#FFC107"/>
+          <rect x="20" y="1" width="15" height="15" fill="#FFC107" opacity="0.45"/>
+          <rect x="1" y="20" width="15" height="15" fill="#FFC107" opacity="0.45"/>
+          <rect x="20" y="20" width="15" height="15" fill="#FFC107"/>
+        </svg>
+        <span class="logo__text">PREDIALTECH</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="main-nav">
+        <ul class="nav__list">
+          <li><a href="index.html"    class="nav__link nav__link--active">Home</a></li>
+          <li><a href="sobre.html"    class="nav__link">Sobre</a></li>
+          <li><a href="servicos.html" class="nav__link">Serviços</a></li>
+          <li><a href="cases.html"    class="nav__link">Cases</a></li>
+          <li><a href="contato.html"  class="nav__link">Fale Conosco</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__content">
+          <span class="label label--outlined">Engenharia Predial e Industrial</span>
+          <h1 class="hero__title">
+            ENGENHARIA PREDIAL E INDUSTRIAL COM <span class="accent">EXECUÇÃO, MÉTODO E INTELIGÊNCIA</span>
+          </h1>
+          <p class="hero__text">
+            Integramos engenharia, gestão e processos técnicos para garantir eficiência, segurança e
+            previsibilidade na operação de edificações e ambientes industriais. Executamos instalações,
+            gerenciamos manutenção, realizamos inspeções e otimizamos ativos com uma abordagem estruturada,
+            orientada por dados, normas técnicas e visão de longo prazo.
+          </p>
+          <a href="contato.html" class="btn btn--primary">FALE COM NOSSA EQUIPE</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section class="services section">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">O que fazemos</span>
+          <h2 class="section-title">NOSSOS SERVIÇOS</h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="services__grid">
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-instalacoes.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-instalacoes.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">INSTALAÇÕES PREDIAIS E INDUSTRIAIS</h3>
+              </div>
+              <p>Do projeto à execução final, com rigor técnico e visão de operação.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-gestao.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-gestao.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">GESTÃO E ENGENHARIA DE MANUTENÇÃO</h3>
+              </div>
+              <p>Manutenção estruturada, orientada a desempenho, confiabilidade e redução de custos operacionais.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-consultoria.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-consultoria.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">CONSULTORIA E ASSESSORIA TÉCNICA</h3>
+              </div>
+              <p>Decisão técnica segura e inteligente em todas as fases do seu projeto e operação industrial.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-inspecoes.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-inspecoes.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">INSPEÇÕES TÉCNICAS E AVALIAÇÕES</h3>
+              </div>
+              <p>Diagnóstico preciso para garantir segurança, conformidade normativa e planejamento estratégico.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-eficiencia.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-eficiencia.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">EFICIÊNCIA E GESTÃO ENERGÉTICA</h3>
+              </div>
+              <p>Inteligência aplicada para reduzir o consumo de energia e aumentar a sustentabilidade do negócio.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-card__img" style="background-image: url('img/img-projetos.png')"></div>
+            <div class="service-card__body">
+              <div class="service-card__header">
+                <div class="service-card__icon-wrap">
+                  <img src="img/icon-projetos.svg" alt="" width="24" height="24" />
+                </div>
+                <h3 class="service-card__title">PROJETOS DE ENGENHARIA</h3>
+              </div>
+              <p>Projetos de engenharia integrados e compatibilizados, foco em eficiência, segurança e conformidade técnica.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SEGMENTOS -->
+    <section class="segments section section--lighter">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">Onde atuamos</span>
+          <h2 class="section-title">SEGMENTOS ATENDIDOS</h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="segments__grid">
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Edi.svg" alt="" width="56" height="56" />
+            </div>
+            <p>EDIFÍCIOS<br>CORPORATIVOS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Ind.svg" alt="" width="56" height="56" />
+            </div>
+            <p>INDÚSTRIAS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Log.svg" alt="" width="56" height="56" />
+            </div>
+            <p>GALPÕES<br>LOGÍSTICOS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Hos.svg" alt="" width="56" height="56" />
+            </div>
+            <p>HOSPITAIS<br>E CLÍNICAS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Hot.svg" alt="" width="56" height="56" />
+            </div>
+            <p>HOTÉIS E<br>RESORTS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Sho.svg" alt="" width="56" height="56" />
+            </div>
+            <p>SHOPPING<br>CENTERS</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Ens.svg" alt="" width="56" height="56" />
+            </div>
+            <p>INSTITUIÇÕES<br>DE ENSINO</p>
+          </div>
+
+          <div class="segment-card">
+            <div class="segment-card__icon">
+              <img src="img/section-atuacao/Cul.svg" alt="" width="56" height="56" />
+            </div>
+            <p>CENTROS CULTURAIS<br>E DE LAZER</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTES -->
+    <section class="clients section">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">Alguns</span>
+          <h2 class="section-title">CLIENTES ATENDIDOS</h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="clients__grid">
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+          <div class="client-logo"><img src="img/logoteste.svg" alt="Cliente"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__grid">
+
+      <div class="footer__brand">
+        <div class="footer__brand-top">
+          <a href="index.html" class="logo">
+            <svg class="logo__icon" width="52" height="52" viewBox="0 0 36 36" fill="none">
+              <rect x="1" y="1" width="15" height="15" fill="#FFC107"/>
+              <rect x="20" y="1" width="15" height="15" fill="#FFC107" opacity="0.45"/>
+              <rect x="1" y="20" width="15" height="15" fill="#FFC107" opacity="0.45"/>
+              <rect x="20" y="20" width="15" height="15" fill="#FFC107"/>
+            </svg>
+          </a>
+          <p class="footer__slogan">EXECUÇÃO TÉCNICA, CONDUZIDA<br>POR INTELIGÊNCIA.</p>
+        </div>
+        <p class="footer__desc">
+          Engenharia predial e industrial com execução, método e inteligência.
+          Integramos engenharia, gestão e processos técnicos para garantir eficiência e segurança.
+        </p>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">SERVIÇOS</h4>
+        <ul>
+          <li><a href="servicos.html">Instalações Prediais e Industriais</a></li>
+          <li><a href="servicos.html">Gestão e Engenharia de Manutenção</a></li>
+          <li><a href="servicos.html">Consultoria e Assessoria Técnica</a></li>
+          <li><a href="servicos.html">Inspeções Técnicas e Avaliações</a></li>
+          <li><a href="servicos.html">Eficiência e Gestão Energética</a></li>
+          <li><a href="servicos.html">Projetos de Engenharia</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">LINKS RÁPIDOS</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="servicos.html">Serviços</a></li>
+          <li><a href="cases.html">Cases</a></li>
+          <li><a href="contato.html">Fale Conosco</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">CONTATO</h4>
+        <ul class="footer__contact">
+          <li>
+            <img src="img/icon-telefone.svg" alt="" width="20" height="20" />
+            <span>(11) 9999-9999</span>
+          </li>
+          <li>
+            <img src="img/icon-email.svg" alt="" width="20" height="20" />
+            <span><a href="mailto:contato@predialtech.com.br">contato@predialtech.com.br</a></span>
+          </li>
+          <li>
+            <img src="img/icon-location.svg" alt="" width="22" height="22" />
+            <span>R. Olimpíadas, 205 – 4º andar |<br>Ed. Continental Square. V. Olímpia - São Paulo – SP - Brasil. CEP 04551-000</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <p>© 2026 Predialtech. Todos os direitos reservados.</p>
+        <span class="footer__credit">teken</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Zap Flutuante -->
+  <a href="https://wa.me/5511999999999" class="zap-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <img src="img/icon-zap.svg" alt="" width="28" height="28" />
+  </a>
+  <script src="script.js"></script>
+</body>
+</html>
