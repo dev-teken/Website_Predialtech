@@ -76,29 +76,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // ---- Align submenu right edge to the 'FALE CONOSCO' link ----
 function alignSubmenuToFale() {
   const submenu = document.querySelector('.nav__item--has-submenu .submenu');
-  const faleConoscoItem = document.querySelector('.nav__list li:last-child');
+  const lastLink = document.querySelector('.nav__list li:last-child a');
   
-  if (!submenu || !faleConoscoItem) return;
+  if (!submenu || !lastLink) return;
 
-  // Obter a posição do item "FALE CONOSCO" em relação à viewport
-  const faleConoscoRect = faleConoscoItem.getBoundingClientRect();
-  
-  // A posição DIREITA do item "FALE CONOSCO"
-  const faleConoscoRight = faleConoscoRect.right;
-  
   // Garantir que o submenu tenha largura definida para o cálculo
   const submenuWidth = submenu.offsetWidth || 760;
+  const viewportWidth = window.innerWidth;
   
-  // Calcular a posição left necessária para que o RIGHT do submenu
-  // se alinhe EXATAMENTE com o RIGHT do item "FALE CONOSCO"
-  // Quando position é fixed: left = rightDoElemento - largura
-  let leftPosition = faleConoscoRight - submenuWidth;
+  // Posição do link "FALE CONOSCO" em relação à viewport
+  const lastLinkRect = lastLink.getBoundingClientRect();
+  
+  // A posição DIREITA do link "FALE CONOSCO"
+  const lastLinkRight = lastLinkRect.right;
+  
+  // Calcular a posição left necessária para que o right do submenu
+  // se alinhe EXATAMENTE com o right do link "FALE CONOSCO"
+  // left = right do link - largura do submenu
+  let leftPosition = lastLinkRight - submenuWidth;
   
   // Garantir que não ultrapasse a borda esquerda da tela (com margem de segurança)
   leftPosition = Math.max(20, leftPosition);
   
   // Garantir que não ultrapasse a borda direita da tela (com margem de segurança)
-  const viewportWidth = window.innerWidth;
   const maxLeft = viewportWidth - submenuWidth - 20;
   if (leftPosition > maxLeft) {
     leftPosition = maxLeft;
@@ -109,41 +109,28 @@ function alignSubmenuToFale() {
   submenu.style.right = 'auto';
 }
 
-// Executar após carregar tudo - múltiplas vezes para garantir
-window.addEventListener('load', () => {
-  alignSubmenuToFale();
-  setTimeout(alignSubmenuToFale, 100);
-  setTimeout(alignSubmenuToFale, 300);
-});
+// Executar após carregar tudo
+window.addEventListener('load', alignSubmenuToFale);
 
 // Executar também após um pequeno delay para garantir que tudo carregou
 setTimeout(alignSubmenuToFale, 100);
-setTimeout(alignSubmenuToFale, 500);
+setTimeout(alignSubmenuToFale, 500); // Segundo delay para garantir
 
-// Executar no redimensionamento com debounce agressivo
+// Executar no redimensionamento com debounce
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(alignSubmenuToFale, 50);
-});
-
-// Também no scroll (para garantir se houver mudanças)
-window.addEventListener('scroll', alignSubmenuToFale, { passive: true });
-
-// Observar mudanças no DOM que possam afetar o posicionamento
-const observerConfig = {
-  childList: true,
-  subtree: false,
-  attributes: true,
-  attributeFilter: ['style', 'class'],
-  attributeOldValue: false
-};
-const observer = new MutationObserver(() => {
-  clearTimeout(resizeTimer);
   resizeTimer = setTimeout(alignSubmenuToFale, 100);
 });
-observer.observe(document.head, observerConfig);
-observer.observe(document.body, observerConfig);
+
+// Observar mudanças no DOM que possam afetar o posicionamento
+const observer = new MutationObserver(alignSubmenuToFale);
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true,
+  attributeFilter: ['style', 'class']
+});
 
 // ---- Header scroll shadow ----
 const header = document.querySelector('.header');

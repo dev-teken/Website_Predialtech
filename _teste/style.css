@@ -228,8 +228,10 @@ ul  { list-style: none; }
 /* Submenu — abre ao hover no <li> pai - AGORA COM PONTE */
 .nav__item--has-submenu .submenu {
   display: none;
-  position: fixed; /* Mudança para fixed para alinhar com a viewport/Fale Conosco */
-  top: 80px;      /* Altura exata do seu header */
+  position: absolute;
+  top: 100%;
+  left: auto;
+  right: auto;
   background: rgba(26,26,26,0.98);
   border: 1px solid var(--border);
   padding: 0;
@@ -239,9 +241,7 @@ ul  { list-style: none; }
   align-items: stretch;
   z-index: 1000;
   overflow: hidden;
-  left: auto;
-  right: auto;
-  /* Left e Right agora são controlados 100% pelo JS */
+  margin-top: 0;
 }
 
 /* PONTE DE HOVER - Cria uma área invisível que conecta o menu ao submenu */
@@ -254,6 +254,7 @@ ul  { list-style: none; }
   height: 20px;
   background: transparent;
   z-index: 1001;
+  pointer-events: none; /* Muda para none inicialmente */
 }
 
 /* Quando o mouse está sobre o item pai ou o submenu, a ponte recebe eventos */
@@ -262,9 +263,7 @@ ul  { list-style: none; }
   pointer-events: auto;
 }
 
-.nav__item--has-submenu:hover .submenu { 
-  display: flex; 
-}
+.nav__item--has-submenu:hover .submenu,
 .nav__item--has-submenu:focus-within .submenu,
 .nav__item--has-submenu .submenu:hover { 
   display: flex; 
@@ -287,9 +286,11 @@ ul  { list-style: none; }
   width: 60%;
   display: flex;
   flex-direction: column;
+  gap: 0;
   padding: 18px 0;
-  background: rgba(26,26,26,0.98);
+  border-right: 1px solid rgba(255,255,255,0.03);
   position: relative;
+  background: rgba(26,26,26,0.98);
   z-index: 1001;
 }
 
@@ -333,7 +334,12 @@ ul  { list-style: none; }
   min-height: 220px;
   background-size: cover;
   background-position: center;
+  border: none;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 24px;
   z-index: 1;
 }
 
