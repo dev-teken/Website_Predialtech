@@ -2,9 +2,9 @@
 // PREDIALTECH – script.js
 // =========================================
 
-// ---- Mobile Nav Toggle ----
+// MOBILE NAV TOGGLE
 const toggle = document.getElementById('nav-toggle');
-const nav    = document.getElementById('main-nav');
+const nav = document.getElementById('main-nav');
 
 if (toggle && nav) {
   toggle.addEventListener('click', () => {
@@ -13,7 +13,6 @@ if (toggle && nav) {
     toggle.setAttribute('aria-expanded', isOpen);
   });
 
-  // Fechar ao clicar em um link
   nav.querySelectorAll('.nav__link').forEach(link => {
     link.addEventListener('click', () => {
       nav.classList.remove('is-open');
@@ -22,18 +21,15 @@ if (toggle && nav) {
     });
   });
 
-  // Fechar ao clicar fora do menu (mobile)
   document.addEventListener('click', (e) => {
     if (!nav.classList.contains('is-open')) return;
-    const target = e.target;
-    if (!nav.contains(target) && !toggle.contains(target)) {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
       nav.classList.remove('is-open');
       toggle.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', false);
     }
   });
 
-  // Fechar com Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav.classList.contains('is-open')) {
       nav.classList.remove('is-open');
@@ -43,114 +39,86 @@ if (toggle && nav) {
   });
 }
 
-// ---- Submenu preview swap (desktop) ----
+// SUBMENU — hover com delay via JS
 document.addEventListener('DOMContentLoaded', () => {
-  const submenuItems = document.querySelectorAll('.submenu__item');
+  const navItem = document.querySelector('.nav__item--has-submenu');
+  const submenu = navItem?.querySelector('.submenu');
+  if (!navItem || !submenu) return;
+
+  // Cria overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'submenu-overlay';
+  document.body.appendChild(overlay);
+
+  let closeTimer = null;
+
+  function abrir() {
+    clearTimeout(closeTimer);
+    navItem.classList.add('submenu-open');
+    document.body.classList.add('submenu-open');
+  }
+
+  function fechar() {
+    closeTimer = setTimeout(() => {
+      navItem.classList.remove('submenu-open');
+      document.body.classList.remove('submenu-open');
+    }, 400);
+  }
+
+  navItem.addEventListener('mouseenter', abrir);
+  navItem.addEventListener('mouseleave', fechar);
+  submenu.addEventListener('mouseenter', abrir);
+  submenu.addEventListener('mouseleave', fechar);
+
+  // Calcula posição X do triângulo para alinhar com o centro do link "Serviços"
+  // Usa a posição do link relativa à borda direita da janela (submenu fica right:0)
+  function alinharTriangulo() {
+    const path = document.getElementById('submenu-bg-path');
+    const gradRect = document.getElementById('submenu-grad-rect');
+    if (!path) return;
+
+    const linkServicos = navItem.querySelector('.nav__link');
+    const linkRect = linkServicos.getBoundingClientRect();
+
+    // Centro do link relativo à borda direita da janela
+    const distDireita = window.innerWidth - (linkRect.left + linkRect.width / 2);
+    // cx no viewBox (635px wide, right:0)
+    const svgW = 635;
+    const cx = Math.round(svgW - distDireita);
+    const r = 20;
+
+    path.setAttribute('d',
+      `M${cx + r} 19H635V341H0V19H${cx - r}L${cx} 0L${cx + r} 19Z`
+    );
+  }
+
+  window.addEventListener('load', alinharTriangulo);
+  window.addEventListener('resize', alinharTriangulo, { passive: true });
+});
+
+// SUBMENU PREVIEW SWAP
+document.addEventListener('DOMContentLoaded', () => {
+  const items   = document.querySelectorAll('.submenu__item');
   const preview = document.querySelector('.submenu__preview');
-  const parent = document.querySelector('.nav__item--has-submenu');
+  const parent  = document.querySelector('.nav__item--has-submenu');
+  if (!items.length || !preview || !parent) return;
 
-  if (!submenuItems.length || !preview || !parent) return;
-
-  // set initial preview (first item)
-  const firstImg = submenuItems[0].dataset.img;
+  const firstImg = items[0]?.dataset.img;
   if (firstImg) preview.style.backgroundImage = `url('${firstImg}')`;
 
-  submenuItems.forEach(item => {
+  items.forEach(item => {
     item.addEventListener('mouseenter', () => {
-      const img = item.dataset.img;
-      if (img) preview.style.backgroundImage = `url('${img}')`;
-    });
-    // keyboard accessibility
-    item.addEventListener('focusin', () => {
-      const img = item.dataset.img;
-      if (img) preview.style.backgroundImage = `url('${img}')`;
+      if (item.dataset.img) preview.style.backgroundImage = `url('${item.dataset.img}')`;
     });
   });
 
-  // When submenu closes, reset preview to first image
   parent.addEventListener('mouseleave', () => {
     if (firstImg) preview.style.backgroundImage = `url('${firstImg}')`;
   });
 });
 
-// ---- Align submenu right edge to the 'FALE CONOSCO' link ----
-function alignSubmenuToFale() {
-  const submenu = document.querySelector('.nav__item--has-submenu .submenu');
-  const faleConoscoItem = document.querySelector('.nav__list li:last-child');
-  
-  if (!submenu || !faleConoscoItem) return;
-
-  // Obter a posição do item "FALE CONOSCO" em relação à viewport
-  const faleConoscoRect = faleConoscoItem.getBoundingClientRect();
-  
-  // A posição DIREITA do item "FALE CONOSCO"
-  const faleConoscoRight = faleConoscoRect.right;
-  
-  // Garantir que o submenu tenha largura definida para o cálculo
-  const submenuWidth = submenu.offsetWidth || 760;
-  
-  // Calcular a posição left necessária para que o RIGHT do submenu
-  // se alinhe EXATAMENTE com o RIGHT do item "FALE CONOSCO"
-  // Quando position é fixed: left = rightDoElemento - largura
-  let leftPosition = faleConoscoRight - submenuWidth;
-  
-  // Garantir que não ultrapasse a borda esquerda da tela (com margem de segurança)
-  leftPosition = Math.max(20, leftPosition);
-  
-  // Garantir que não ultrapasse a borda direita da tela (com margem de segurança)
-  const viewportWidth = window.innerWidth;
-  const maxLeft = viewportWidth - submenuWidth - 20;
-  if (leftPosition > maxLeft) {
-    leftPosition = maxLeft;
-  }
-  
-  // Aplicar o posicionamento
-  submenu.style.left = `${leftPosition}px`;
-  submenu.style.right = 'auto';
-}
-
-// Executar após carregar tudo - múltiplas vezes para garantir
-window.addEventListener('load', () => {
-  alignSubmenuToFale();
-  setTimeout(alignSubmenuToFale, 100);
-  setTimeout(alignSubmenuToFale, 300);
-});
-
-// Executar também após um pequeno delay para garantir que tudo carregou
-setTimeout(alignSubmenuToFale, 100);
-setTimeout(alignSubmenuToFale, 500);
-
-// Executar no redimensionamento com debounce agressivo
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(alignSubmenuToFale, 50);
-});
-
-// Também no scroll (para garantir se houver mudanças)
-window.addEventListener('scroll', alignSubmenuToFale, { passive: true });
-
-// Observar mudanças no DOM que possam afetar o posicionamento
-const observerConfig = {
-  childList: true,
-  subtree: false,
-  attributes: true,
-  attributeFilter: ['style', 'class'],
-  attributeOldValue: false
-};
-const observer = new MutationObserver(() => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(alignSubmenuToFale, 100);
-});
-observer.observe(document.head, observerConfig);
-observer.observe(document.body, observerConfig);
-
-// ---- Header scroll shadow ----
+// HEADER SCROLL SHADOW
 const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
-  if (header) {
-    header.style.boxShadow = window.scrollY > 20
-      ? '0 2px 20px rgba(0,0,0,0.5)'
-      : 'none';
-  }
-});
+  if (header) header.style.boxShadow = window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,0.5)' : 'none';
+}, { passive: true });

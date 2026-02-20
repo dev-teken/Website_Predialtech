@@ -35,6 +35,26 @@
           <li class="nav__item nav__item--has-submenu">
             <a href="servicos.html" class="nav__link">Serviços</a>
             <div class="submenu" aria-hidden="true">
+              <!--
+                SVG background inline. Para mover o triângulo manualmente,
+                altere o valor de cx no atributo data-cx, ou deixe o JS calcular.
+                Pontos do triângulo: (cx-20, 19) → (cx, 0) → (cx+20, 19)
+              -->
+              <svg class="submenu__bg" id="submenu-bg-svg" viewBox="0 0 635 341" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <filter id="submenu-shadow" x="-4%" y="-8%" width="112%" height="125%">
+                    <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.65)"/>
+                  </filter>
+                  <linearGradient id="grad-preview" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#F7B607"/>
+                    <stop offset="100%" stop-color="#806001"/>
+                  </linearGradient>
+                </defs>
+                <!-- Fundo escuro + triângulo (path atualizado pelo JS) -->
+                <path id="submenu-bg-path" d="M490 19H635V341H0V19H470L490 0L510 19Z" fill="#1A1A1A" filter="url(#submenu-shadow)"/>
+                <!-- Coluna direita com gradiente amarelo (157px = (635-320)/2 ~arredondado) -->
+                <rect x="478" y="19" width="157" height="322" fill="url(#grad-preview)"/>
+              </svg>
               <ul class="submenu__list">
                 <li class="submenu__item" data-img="img/img-instalacoes.png"><a href="servicos.html#instalacoes">Instalações Prediais e Industriais</a></li>
                 <li class="submenu__item" data-img="img/img-gestao.png"><a href="servicos.html#gestao">Gestão e Engenharia de Manutenção</a></li>
@@ -318,7 +338,7 @@
           </li>
           <li>
             <img src="img/icon-email.svg" alt="" width="20" height="20" />
-            <span><a href="mailto:contato@predialtech.com.br">contato@predialtech.com.br</a></span>
+            <span><a href="/cdn-cgi/l/email-protection#0c6f6362786d78634c7c7e6968656d6078696f64226f6361226e7e"><span class="__cf_email__" data-cfemail="492a26273d283d2609393b2c2d2028253d2c2a21672a2624672b3b">[email&#160;protected]</span></a></span>
           </li>
           <li>
             <img src="img/icon-location.svg" alt="" width="22" height="22" />
@@ -337,9 +357,4 @@
   </footer>
 
   <!-- Zap Flutuante -->
-  <a href="https://wa.me/5511999999999" class="zap-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <img src="img/icon-zap.svg" alt="" width="49" height="49" />
-  </a>
-  <script src="script.js"></script>
-</body>
-</html>
+  <a href="https://wa.me/5511999999999" class="zap-float" target="_blank" rel="noopener noreferre
