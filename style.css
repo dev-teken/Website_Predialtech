@@ -471,6 +471,11 @@ body.submenu-open .submenu-overlay {
   padding-top: 80px;
 }
 
+/* Hero bg img — oculto no desktop, visível só no mobile via media query */
+.hero__bg-img {
+  display: none;
+}
+
 .hero::before {
   content: '';
   position: absolute;
