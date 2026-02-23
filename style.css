@@ -436,7 +436,7 @@ body.submenu-open .submenu-overlay {
   .submenu__item:last-child::after { display: none; }
 
   .submenu__item a {
-    font-size: clamp(11px, 2dvh, 16px);
+    font-size: clamp(13px, 2.3dvh, 18px);
     color: var(--grafite-cl2);
   }
 
