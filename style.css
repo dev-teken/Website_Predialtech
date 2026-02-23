@@ -399,8 +399,14 @@ body.submenu-open .submenu-overlay {
   /* O item com submenu não centraliza — alinha ao topo com padding */
   .nav__list > li.nav__item--has-submenu {
     justify-content: flex-start;
-    padding: clamp(6px, 1.5dvh, 12px) 0;
+    padding: clamp(6px, 1.5dvh, 12px) 0 0 0;
     flex: 2.5;
+    border-bottom: none;
+  }
+
+  .nav__item--has-submenu > .nav__link {
+    padding-bottom: clamp(3px, 0.5dvh, 5px);
+    border-bottom: 2px solid #ffffff;
   }
 
   .nav__item--has-submenu .submenu {
@@ -930,40 +936,14 @@ body.submenu-open .submenu-overlay {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
-    border-bottom: none;
     position: relative;
+    padding-bottom: clamp(3px, 0.5dvh, 5px);
+    border-bottom: 2px solid #ffffff;
   }
 
-  /* Separador 5px abaixo do texto, flutua independente da altura do slot */
-  .nav__list > li::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: calc(50% + 0.65em + 5px);
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #ffffff;
-  }
 
-  /* No item com submenu o separador fica logo abaixo do nav__link */
-  .nav__list > li.nav__item--has-submenu::after {
-    top: calc(clamp(6px, 1.5dvh, 12px) + 1.1em + 5px);
-  }
-
-  .nav__list > li:last-child::after,
-  .nav__list > li:nth-child(3)::after {
-    display: none;
-  }
-
-  .nav__list > li:last-child {
-    border-bottom: none;
-  }
-  .nav__list > li:nth-child(3) {
-    border-bottom: none;
-  }
 
   .nav__link {
     display: block;
