@@ -143,6 +143,93 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // =========================================
+// HERO — animação de entrada no load
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const heroContent = document.querySelector('.hero__content');
+  if (heroContent) {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        heroContent.classList.add('is-visible');
+      }, 100); // pequeno delay para garantir render
+    });
+  }
+});
+
+// =========================================
+// SECTION HEADERS — fade-in-up no scroll
+// =========================================
+(function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.3,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.section-header').forEach(el => observer.observe(el));
+})();
+
+// =========================================
+// SERVICE CARDS — fade-in-up em cascata no scroll
+// =========================================
+(function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card  = entry.target;
+        const index = parseInt(card.dataset.cardIndex || 0);
+        setTimeout(() => {
+          card.classList.add('is-visible');
+        }, index * 100);
+        observer.unobserve(card);
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.dataset.cardIndex = i;
+    observer.observe(card);
+  });
+})();
+
+// =========================================
+// SEGMENT CARDS — fade-in-up em cascata (desktop + tablet only)
+// =========================================
+(function () {
+  if (window.innerWidth <= 768) return; // mobile já tem animação própria
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card  = entry.target;
+        const index = parseInt(card.dataset.segIndex || 0);
+        setTimeout(() => {
+          card.classList.add('is-visible');
+        }, index * 90);
+        observer.unobserve(card);
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  document.querySelectorAll('.segment-card').forEach((card, i) => {
+    card.dataset.segIndex = i;
+    observer.observe(card);
+  });
+})();
+
+// =========================================
 // SEGMENTOS — cascade scroll animation (mobile only)
 // =========================================
 (function () {
