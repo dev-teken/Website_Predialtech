@@ -399,7 +399,8 @@ body.submenu-open .submenu-overlay {
   /* O item com submenu não centraliza — alinha ao topo com padding */
   .nav__list > li.nav__item--has-submenu {
     justify-content: flex-start;
-    padding: 12px 0;
+    padding: clamp(6px, 1.5dvh, 12px) 0;
+    flex: 2.5;
   }
 
   .nav__item--has-submenu .submenu {
@@ -428,14 +429,14 @@ body.submenu-open .submenu-overlay {
   }
 
   .submenu__item {
-    padding: 22px 0;
+    padding: clamp(6px, 1.6dvh, 22px) 0;
     border-bottom: 1px solid var(--border);
   }
 
   .submenu__item:last-child::after { display: none; }
 
   .submenu__item a {
-    font-size: calc(var(--fs-14) * 1.16);
+    font-size: clamp(11px, 2dvh, 16px);
     color: var(--grafite-cl2);
   }
 
@@ -904,7 +905,7 @@ body.submenu-open .submenu-overlay {
     bottom: 0;
     height: 100dvh;
     background: rgba(26,26,26,0.99);
-    padding: calc(80px + 24px - 50px) 24px 24px 24px;
+    padding: clamp(44px, 8dvh, 54px) 24px clamp(12px, 3dvh, 24px) 24px;
     display: flex;
     flex-direction: column;
     border-bottom: none;
@@ -932,7 +933,31 @@ body.submenu-open .submenu-overlay {
     justify-content: center;
     width: 100%;
     border-bottom: none;
+    position: relative;
   }
+
+  /* Separador 5px abaixo do texto, flutua independente da altura do slot */
+  .nav__list > li::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: calc(50% + 0.65em + 5px);
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #ffffff;
+  }
+
+  /* No item com submenu o separador fica logo abaixo do nav__link */
+  .nav__list > li.nav__item--has-submenu::after {
+    top: calc(clamp(6px, 1.5dvh, 12px) + 1.1em + 5px);
+  }
+
+  .nav__list > li:last-child::after,
+  .nav__list > li:nth-child(3)::after {
+    display: none;
+  }
+
   .nav__list > li:last-child {
     border-bottom: none;
   }
@@ -942,10 +967,10 @@ body.submenu-open .submenu-overlay {
 
   .nav__link {
     display: block;
-    padding: 0 0 5px 0;
-    border-bottom: 2px solid #ffffff;
+    padding: 0;
+    border-bottom: none;
     width: 100%;
-    font-size: calc(var(--fs-16) * 1.3);
+    font-size: clamp(13px, 3.2dvh, 21px);
   }
 
   /* Serviços fica acima de Cases — sem linha separadora abaixo do bloco inteiro */
