@@ -1,5 +1,5 @@
 /* =========================================
-   PREDIALTECH – style.css
+   PREDIALTECH – style.css (CORRIGIDO)
    Tokens Figma: Oswald + Inter | #FFC107 | #1A1A1A
    ========================================= */
 
@@ -205,7 +205,7 @@ ul  { list-style: none; }
 .nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* -----------------------
-   Desktop submenu for Serviços
+   Desktop submenu para Serviços (CORRIGIDO)
    ----------------------- */
 .nav__item--has-submenu {
   position: static;
@@ -217,64 +217,54 @@ ul  { list-style: none; }
   opacity: 0;
   display: flex;
   position: absolute;
-  top: 54px;            /* posição Y */
+  top: 35px;
   right: 0;
   left: auto;
-  background: rgba(26,26,26,0.98);
-  border: 1px solid var(--border);
-  border-top: none;     /* triângulo cobre o topo */
-  padding: 0;
-  width: 635px;         /* largura total */
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 19px 0 0 0;
+  width: 635px;
   max-width: 90vw;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   align-items: stretch;
   z-index: 1000;
   overflow: visible;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-/* Triângulo apontando para cima acima do submenu */
-.submenu__arrow {
+/* SVG inline — fundo e sombra do submenu */
+.submenu__bg {
   position: absolute;
-  top: -20px;
-  right: 245px;
-  width: 50px;
-  height: 20px;
-  z-index: 1001;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
   pointer-events: none;
+  overflow: visible;
 }
 
-.submenu__arrow svg {
-  display: block;
-}
-
-/* Overlay escuro quando submenu está aberto */
+/* Overlay escuro quando submenu está aberto (CORRIGIDO) */
 .submenu-overlay {
   position: fixed;
   top: 80px;
-  left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.70);
-  z-index: 999;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 998;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.25s ease;
- backdrop-filter: blur(4px);
--webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.05);
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 body.submenu-open .submenu-overlay {
   opacity: 1;
+  pointer-events: none;
 }
 
 .nav__item--has-submenu .submenu::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: calc((100% - 320px) / 2);
-  background: linear-gradient(180deg, #F7B607 0%, #806001 100%);
-  z-index: 0;
-  pointer-events: none;
+  display: none;
 }
 
 /* Quadradinho amarelo — posicionado livremente sobre a preview */
@@ -297,9 +287,9 @@ body.submenu-open .submenu-overlay {
   top: 100%;
   left: 0;
   width: 100%;
-  height: 24px;
+  height: 16px;
   background: transparent;
-  z-index: 999;
+  z-index: 1001;
 }
 
 .nav__item--has-submenu:hover .submenu,
@@ -312,13 +302,14 @@ body.submenu-open .submenu-overlay {
 }
 
 .submenu__list {
-  flex: 0 0 330px;
+  flex: 0 0 370px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0;
-  background: rgba(26,26,26,0.98);
+  background: transparent;
   position: relative;
+  z-index: 1001;
 }
 
 /* Left gray accent strip */
@@ -331,12 +322,12 @@ body.submenu-open .submenu-overlay {
   width: 12px;
   background: rgba(216,216,216,0.10);
   display: none;
-
 }
 
 .submenu__item {
   padding: 14px 20px 14px 20px;
   position: relative;
+  pointer-events: auto;
 }
 
 /* Separador alinhado ao início do texto */
@@ -344,8 +335,8 @@ body.submenu-open .submenu-overlay {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 24px;   /* alinha com o padding-left do texto */
-  right: 24px;  /* mesmo espaço à direita, afasta da foto */
+  left: 24px;
+  right: 24px;
   height: 0.8px;
   background: rgba(216,216,216,0.10);
 }
@@ -375,25 +366,39 @@ body.submenu-open .submenu-overlay {
   color: var(--yellow); 
 }
 
+/* Preview do submenu (CORRIGIDO) */
 .submenu__preview {
   flex: 1;
   min-height: 220px;
   margin: 30px 30px 30px 0;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   position: relative;
-  z-index: 2;
+  z-index: 1002;
   overflow: visible;
-  filter: drop-shadow(0px 0px 8px rgba(0,0,0,0.3));
+  filter: drop-shadow(0px 0px 8px rgba(0,0,0,0.8));
+  border-radius: 4px;
+  transition: background-image 0.2s ease;
 }
 
-.submenu__preview::after { display: none; }
-.submenu__preview::before { display: none; }
+/* Garantir que as imagens de preview tenham um fundo fallback */
+.submenu__preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: -1;
+}
 
 /* hide mega submenu on mobile */
 @media (max-width: 768px) {
   .nav__item--has-submenu .submenu { display: none !important; }
   .nav__item--has-submenu::after { display: none; }
+  .submenu-overlay { display: none !important; }
 }
 
 /* =========================================
@@ -918,4 +923,24 @@ body.submenu-open .submenu-overlay {
 
 @media (min-width: 2560px) {
   .hero { background-position: center 80px; }
+}
+
+/* =========================================
+   FIX: Overlay do submenu - GARANTIR VISIBILIDADE
+   ========================================= */
+.submenu-overlay {
+  display: block !important;
+  visibility: visible !important;
+}
+
+body.submenu-open .submenu-overlay {
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+/* Debug temporário - REMOVA DEPOIS DE TESTAR */
+.submenu__preview {
+  border: 2px solid rgba(255,193,7,0.3);
+  min-height: 250px;
+  background-color: #2E2E2E !important; /* Fallback */
 }

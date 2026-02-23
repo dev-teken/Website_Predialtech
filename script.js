@@ -39,21 +39,22 @@ if (toggle && nav) {
   });
 }
 
-// SUBMENU — hover com delay via JS
+// SUBMENU
 document.addEventListener('DOMContentLoaded', () => {
   const navItem = document.querySelector('.nav__item--has-submenu');
   const submenu = navItem?.querySelector('.submenu');
   if (!navItem || !submenu) return;
 
-  // Cria overlay
   const overlay = document.createElement('div');
   overlay.className = 'submenu-overlay';
   document.body.appendChild(overlay);
 
-  let closeTimer = null;
+  let closeTimer   = null;
+  let overlayTimer = null;
 
   function abrir() {
     clearTimeout(closeTimer);
+    clearTimeout(overlayTimer);
     navItem.classList.add('submenu-open');
     document.body.classList.add('submenu-open');
   }
@@ -61,8 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function fechar() {
     closeTimer = setTimeout(() => {
       navItem.classList.remove('submenu-open');
-      document.body.classList.remove('submenu-open');
-    }, 400);
+      currentImg = firstImg;
+      overlayTimer = setTimeout(() => {
+        document.body.classList.remove('submenu-open');
+      }, 120);
+    }, 100);
   }
 
   navItem.addEventListener('mouseenter', abrir);
@@ -70,51 +74,66 @@ document.addEventListener('DOMContentLoaded', () => {
   submenu.addEventListener('mouseenter', abrir);
   submenu.addEventListener('mouseleave', fechar);
 
-  // Calcula posição X do triângulo para alinhar com o centro do link "Serviços"
-  // Usa a posição do link relativa à borda direita da janela (submenu fica right:0)
-  function alinharTriangulo() {
-    const path = document.getElementById('submenu-bg-path');
-    const gradRect = document.getElementById('submenu-grad-rect');
-    if (!path) return;
+  // Preview swap
+  const items    = navItem.querySelectorAll('.submenu__item');
+  const preview  = navItem.querySelector('.submenu__preview');
+  const firstImg = items[0]?.dataset.img;
+  let currentImg = firstImg;
+  let animFrame  = null;
 
-    const linkServicos = navItem.querySelector('.nav__link');
-    const linkRect = linkServicos.getBoundingClientRect();
+  const SHADOW   = 'drop-shadow(0px 4px 12px #131313)';
+  const DURATION = 6400;  // ms
+  const BLUR_MAX = 2;    // px
 
-    // Centro do link relativo à borda direita da janela
-    const distDireita = window.innerWidth - (linkRect.left + linkRect.width / 2);
-    // cx no viewBox (635px wide, right:0)
-    const svgW = 635;
-    const cx = Math.round(svgW - distDireita);
-    const r = 20;
-
-    path.setAttribute('d',
-      `M${cx + r} 19H635V341H0V19H${cx - r}L${cx} 0L${cx + r} 19Z`
-    );
+  // expoente 8 = começa muito rápido, termina muito devagar
+  function easeOut(t) {
+    return 1 - Math.pow(1 - t, 8);
   }
 
-  window.addEventListener('load', alinharTriangulo);
-  window.addEventListener('resize', alinharTriangulo, { passive: true });
-});
+  if (preview && firstImg) {
+    preview.style.backgroundImage = `url('${firstImg}')`;
+    preview.style.filter = `grayscale(0) blur(0px) ${SHADOW}`;
+  }
 
-// SUBMENU PREVIEW SWAP
-document.addEventListener('DOMContentLoaded', () => {
-  const items   = document.querySelectorAll('.submenu__item');
-  const preview = document.querySelector('.submenu__preview');
-  const parent  = document.querySelector('.nav__item--has-submenu');
-  if (!items.length || !preview || !parent) return;
+  function swapPreview(img) {
+    if (!preview || !img || img === currentImg) return;
+    currentImg = img;
 
-  const firstImg = items[0]?.dataset.img;
-  if (firstImg) preview.style.backgroundImage = `url('${firstImg}')`;
+    if (animFrame) cancelAnimationFrame(animFrame);
+
+    preview.style.transition = 'none';
+    preview.style.filter     = `grayscale(1) blur(${BLUR_MAX}px) ${SHADOW}`;
+
+    setTimeout(() => {
+      preview.style.backgroundImage = `url('${img}')`;
+
+      const start = performance.now();
+
+      function animate(now) {
+        const t     = Math.min((now - start) / DURATION, 1);
+        const eased = easeOut(t);
+        const gray  = (1 - eased).toFixed(3);
+        const blur  = (BLUR_MAX * (1 - eased)).toFixed(2);
+        preview.style.filter = `grayscale(${gray}) blur(${blur}px) ${SHADOW}`;
+        if (t < 1) {
+          animFrame = requestAnimationFrame(animate);
+        } else {
+          preview.style.filter = `grayscale(0) blur(0px) ${SHADOW}`;
+        }
+      }
+
+      animFrame = requestAnimationFrame(animate);
+    }, 50);
+  }
 
   items.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      if (item.dataset.img) preview.style.backgroundImage = `url('${item.dataset.img}')`;
-    });
+    const link = item.querySelector('a');
+    if (link) {
+      link.addEventListener('mouseenter', () => swapPreview(item.dataset.img));
+    }
   });
 
-  parent.addEventListener('mouseleave', () => {
-    if (firstImg) preview.style.backgroundImage = `url('${firstImg}')`;
-  });
+  navItem.addEventListener('mouseleave', () => swapPreview(firstImg));
 });
 
 // HEADER SCROLL SHADOW
