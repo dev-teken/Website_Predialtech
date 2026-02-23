@@ -141,3 +141,127 @@ const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
   if (header) header.style.boxShadow = window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,0.5)' : 'none';
 }, { passive: true });
+
+// =========================================
+// SEGMENTOS — cascade scroll animation (mobile only)
+// =========================================
+(function () {
+  function initCascade() {
+    const cards = document.querySelectorAll('.segment-card');
+    if (!cards.length) return;
+
+    if (window.innerWidth > 768) {
+      // Desktop/tablet: garante visibilidade sem animação
+      cards.forEach(c => {
+        c.style.opacity = '';
+        c.style.transform = '';
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card  = entry.target;
+          const index = parseInt(card.dataset.cascadeIndex || 0);
+          setTimeout(() => {
+            card.classList.add('is-visible');
+          }, index * 80); // 60ms entre cada item = cascata rápida
+          observer.unobserve(card);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -20px 0px'
+    });
+
+    cards.forEach((card, i) => {
+      card.dataset.cascadeIndex = i;
+      card.classList.remove('is-visible');
+      observer.observe(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initCascade);
+  window.addEventListener('resize', initCascade, { passive: true });
+})();
+// =========================================
+(function () {
+  const slider = document.getElementById('clientsSlider');
+  if (!slider) return;
+
+  // Só ativa em mobile
+  function isMobile() { return window.innerWidth <= 768; }
+
+  const track  = document.getElementById('clientsSlidesTrack');
+  const dots   = document.querySelectorAll('.clients__dot');
+  const TOTAL  = 2;       // número de slides
+  const DELAY  = 4000;    // ms entre slides automáticos
+
+  let current    = 0;
+  let autoTimer  = null;
+  let touchStartX = 0;
+  let touchEndX   = 0;
+  let active     = false;
+
+  function goTo(index) {
+    current = (index + TOTAL) % TOTAL;
+    track.style.transform = `translateX(-${current * 50}%)`;
+    dots.forEach((d, i) => d.classList.toggle('clients__dot--active', i === current));
+  }
+
+  function next() { goTo(current + 1); }
+
+  function startAuto() {
+    if (!active) return;
+    stopAuto();
+    autoTimer = setInterval(next, DELAY);
+  }
+
+  function stopAuto() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
+
+  function init() {
+    if (isMobile()) {
+      active = true;
+      goTo(0);
+      startAuto();
+    } else {
+      active = false;
+      stopAuto();
+    }
+  }
+
+  // Dots clicáveis
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      goTo(i);
+      startAuto(); // reinicia timer
+    });
+  });
+
+  // Swipe touch
+  slider.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+    stopAuto();
+  }, { passive: true });
+
+  slider.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) { // threshold 40px
+      diff > 0 ? next() : goTo(current - 1);
+    }
+    startAuto();
+  }, { passive: true });
+
+  // Pausa ao hover (desktop não ativa, mas por segurança)
+  slider.addEventListener('mouseenter', stopAuto);
+  slider.addEventListener('mouseleave', startAuto);
+
+  // Init e resize
+  init();
+  window.addEventListener('resize', init, { passive: true });
+})();

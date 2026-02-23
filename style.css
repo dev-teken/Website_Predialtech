@@ -156,13 +156,15 @@ ul  { list-style: none; }
   align-items: center;
   gap: 10px;
 }
-.logo__icon { flex-shrink: 0; }
-.logo__text {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  color: var(--text);
+.logo__img {
+  height: 32px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.logo__img--footer {
+  height: 42px;
 }
 
 .nav__list {
@@ -406,7 +408,8 @@ body.submenu-open .submenu-overlay {
 
   .nav__item--has-submenu > .nav__link {
     padding-bottom: clamp(3px, 0.5dvh, 5px);
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #ffffff 0%, #FFC107 100%) 1;
   }
 
   .nav__item--has-submenu .submenu {
@@ -447,11 +450,11 @@ body.submenu-open .submenu-overlay {
   }
 
   .submenu__item a::before {
-    content: '–';
-    margin-right: 8px;
+    content: '❯';
+    margin-right: 10px;
     color: var(--yellow);
-    font-size: 11px;
-    opacity: 0.7;
+    font-size: 10px;
+    opacity: 0.6;
   }
 }
 
@@ -710,34 +713,92 @@ body.submenu-open .submenu-overlay {
    ========================================= */
 .clients {
   background-color: #FFFFFF;
+  overflow: hidden;
 }
 
 .clients .section-title { color: #595959; }
 .clients .label { color: var(--yellow); }
 .clients .divider { background: var(--yellow); }
 
+/* ── DESKTOP / TABLET: grid normal ── */
 .clients__grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 32px;
 }
 
+/* Wrapper do slider — escondido fora do mobile */
+.clients__slider { display: none; }
+
+/* ── Estilos do SLIDER MOBILE (4×2 por slide) ── */
+.clients__slider {
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 40px; /* espaço para os dots */
+}
+
+.clients__slides-track {
+  display: flex;
+  width: 200%; /* 2 slides × 100% */
+  transition: transform 1.5s ease-in;
+}
+
+.clients__slide {
+  width: 50%; /* cada slide = 100% do container */
+  flex-shrink: 0;
+  padding: 0 24px;
+}
+
+.clients__slide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Dots */
+.clients__dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+}
+
+.clients__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #C0C0C0;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.clients__dot--active {
+  background: #595959;
+}
+
+/* ── client-logo base (desktop + mobile) ── */
 .client-logo {
-  height: 160px;
+  height: 112px;
   background: #FFFFFF;
   border: none;
   box-shadow: 0 1px 15px rgba(12,12,13,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow var(--transition);
+  transition: box-shadow var(--transition), transform var(--transition);
 }
 .client-logo:hover {
-  box-shadow: 0 1px 15px rgba(12,12,13,0.30);
+  box-shadow: 0 4px 20px rgba(12,12,13,0.25);
+  transform: translateY(-2px);
 }
 
 .client-logo img {
-  max-height: 70px;
+  max-height: 49px;
   max-width: 75%;
   object-fit: contain;
   filter: grayscale(100%) brightness(0.5);
@@ -899,6 +960,46 @@ body.submenu-open .submenu-overlay {
   .service-card__img { height: 180px; }
 }
 
+/* TABLET ONLY (769px – 1024px): segmentos em grid 2 colunas como desktop */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .segments__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .segment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 20px 28px;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .segment-card__icon {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    margin: 0 auto 16px;
+  }
+
+  .segment-card__icon img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .segment-card p {
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: normal;
+    letter-spacing: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .container { padding: 0 24px; }
 
@@ -940,7 +1041,9 @@ body.submenu-open .submenu-overlay {
     width: 100%;
     position: relative;
     padding-bottom: clamp(3px, 0.5dvh, 5px);
-    border-bottom: 2px solid #ffffff;
+    /* 1) Degradê branco → amarelo nas linhas separadoras */
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #ffffff 0%, #FFC107 100%) 1;
   }
 
 
@@ -962,12 +1065,124 @@ body.submenu-open .submenu-overlay {
   .hero__title       { font-size: clamp(28px, 7.5vw, 42px); margin-bottom: 16px; }
   .hero__text        { font-size: var(--fs-16); margin-bottom: 24px; }
 
-  .section           { padding: 56px 0; }
-  .section-title     { font-size: 28px; }
+  .section           { padding: 40px 0; }
+  .section-title     { font-size: 22px; }
+
+  /* Section headers ainda mais compactos — ganhar espaço de rolagem */
+  .section-header    { margin-bottom: 20px; }
+  .label             { margin-bottom: 4px; font-size: 11px; padding: 3px 8px; }
+  .divider           { margin-top: 6px; width: 36px; height: 2px; }
 
   .services__grid    { grid-template-columns: 1fr; }
-  .segments__grid    { grid-template-columns: repeat(2, 1fr); }
-  .clients__grid     { grid-template-columns: repeat(2, 1fr); }
+
+  /* SEGMENTOS MOBILE — layout + animação cascade unificados */
+  .segments__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+
+  .segment-card {
+    /* Layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+    height: calc((100dvh - 80px) / 4 * 0.6);
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    box-shadow: none;
+    background: var(--grafite);
+    border-radius: 0;
+    /* Animação — começa invisível e deslocado */
+    opacity: 0;
+    transform: translateX(-20px);
+    /* Transition unificada: fade suave + movimento + hover */
+    transition:
+      opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .segment-card:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  /* Estado visível após scroll */
+  .segment-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .segment-card:hover {
+    border-left-color: var(--yellow);
+    background: var(--yellow-dk);
+    transform: translateX(0);
+    box-shadow: none;
+  }
+
+  .segment-card__icon {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    margin: 0 !important;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .segment-card__icon img {
+    width: 18px !important;
+    height: 18px !important;
+    object-fit: contain;
+  }
+
+  .segment-card p {
+    font-size: clamp(8px, 2.8vw, 11px);
+    line-height: 1;
+    margin: 0;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  /* Wrapping border around the whole list */
+  .segments__grid {
+    border: 1px solid var(--border);
+    border-top: none; /* first-child handles top */
+  }
+  .segment-card:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  /* Mobile: esconde o grid e mostra o slider */
+  .clients__grid   { display: none; }
+  .clients__slider {
+    display: block;
+    padding-bottom: 40px;
+  }
+
+  /* Ajusta tamanho dos logos no slider mobile — 20% menor, proporção quadrada */
+  .clients__slide-grid .client-logo {
+    height: 0;
+    padding-bottom: 80%; /* quadrado -20% */
+    position: relative;
+  }
+  .clients__slide-grid .client-logo img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 50%;
+    max-width: 65%;
+  }
+
   .footer__grid      { grid-template-columns: 1fr; gap: 32px; }
 
   .footer__bottom p,
@@ -981,8 +1196,7 @@ body.submenu-open .submenu-overlay {
 
 @media (max-width: 480px) {
   .hero__title    { font-size: clamp(28px, 8vw, 38px); }
-  .segments__grid { grid-template-columns: 1fr 1fr; }
-  .clients__grid  { grid-template-columns: repeat(2, 1fr); }
+  .clients__slide { padding: 0 16px; }
 }
 
 @media (max-width: 1440px) {
