@@ -265,3 +265,26 @@ window.addEventListener('scroll', () => {
   init();
   window.addEventListener('resize', init, { passive: true });
 })();
+// =========================================
+// HERO TEXT — versão curta no mobile
+// =========================================
+(function () {
+  function applyMobileText() {
+    const p = document.querySelector('.hero__text[data-mobile-text]');
+    if (!p) return;
+    if (window.innerWidth <= 768) {
+      p.textContent = p.dataset.mobileText;
+    } else {
+      // Restaura texto completo se redimensionar pra desktop
+      if (p._fullText) p.textContent = p._fullText;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const p = document.querySelector('.hero__text[data-mobile-text]');
+    if (p) p._fullText = p.textContent.trim();
+    applyMobileText();
+  });
+
+  window.addEventListener('resize', applyMobileText, { passive: true });
+})();
