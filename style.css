@@ -390,10 +390,62 @@ body.submenu-open .submenu-overlay {
 .submenu__preview::after { display: none; }
 .submenu__preview::before { display: none; }
 
-/* hide mega submenu on mobile */
+/* MOBILE submenu */
 @media (max-width: 768px) {
-  .nav__item--has-submenu .submenu { display: none !important; }
-  .nav__item--has-submenu::after { display: none; }
+  .nav__item--has-submenu::after               { display: none; }
+  .submenu-overlay                             { display: none; }
+  .submenu__arrow                              { display: none; }
+
+  /* O item com submenu não centraliza — alinha ao topo com padding */
+  .nav__list > li.nav__item--has-submenu {
+    justify-content: flex-start;
+    padding: 12px 0;
+  }
+
+  .nav__item--has-submenu .submenu {
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    overflow: visible;
+    transition: none;
+  }
+
+  .submenu__preview                            { display: none; }
+  .nav__item--has-submenu .submenu::before     { display: none; }
+  .nav__item--has-submenu .submenu::after      { display: none; }
+
+  .submenu__list {
+    flex-direction: column;
+    background: none;
+    padding: 0 0 2px 14px;
+  }
+
+  .submenu__item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .submenu__item:last-child::after { display: none; }
+
+  .submenu__item a {
+    font-size: calc(var(--fs-14) * 1.16);
+    color: var(--grafite-cl2);
+  }
+
+  .submenu__item a::before {
+    content: '–';
+    margin-right: 8px;
+    color: var(--yellow);
+    font-size: 11px;
+    opacity: 0.7;
+  }
 }
 
 /* =========================================
@@ -849,26 +901,54 @@ body.submenu-open .submenu-overlay {
     position: fixed;
     top: 0;
     left: 0; right: 0;
+    bottom: 0;
+    height: 100dvh;
     background: rgba(26,26,26,0.99);
-    padding: calc(80px + 24px) 24px 24px 24px;
-    border-bottom: 1px solid var(--border);
+    padding: calc(80px + 24px - 50px) 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
     transform: translateY(-110%);
     transition: transform 0.35s ease;
     z-index: 1001;
+    overflow-y: auto;
   }
   .nav.is-open { transform: translateY(0); }
 
   .nav__list {
+    flex: 1;
     flex-direction: column;
     gap: 0;
     align-items: flex-start;
-  }
-  .nav__link {
-    display: block;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
+    justify-content: space-between;
     width: 100%;
   }
+
+  /* Cada item principal ocupa espaço proporcional */
+  .nav__list > li {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    border-bottom: none;
+  }
+  .nav__list > li:last-child {
+    border-bottom: none;
+  }
+  .nav__list > li:nth-child(3) {
+    border-bottom: none;
+  }
+
+  .nav__link {
+    display: block;
+    padding: 0 0 5px 0;
+    border-bottom: 2px solid #ffffff;
+    width: 100%;
+    font-size: calc(var(--fs-16) * 1.3);
+  }
+
+  /* Serviços fica acima de Cases — sem linha separadora abaixo do bloco inteiro */
 
   .hero              { min-height: 100svh; }
   .hero::before      { background: rgba(26,26,26,0.80); }
